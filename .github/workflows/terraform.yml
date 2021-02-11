@@ -64,6 +64,10 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout and substitute
       uses: actions/checkout@v2
+    - name: Update the parameters
+      run: |
+        sed -i 's/CLIENT_SECRET/${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}/' k8s.tf
+        sed -i 's/PASSWORD/${{ secrets.MYSQL_PASSWORD }}/' kustomization.yaml
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init

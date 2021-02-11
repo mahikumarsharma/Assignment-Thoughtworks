@@ -1,3 +1,7 @@
+variable "client_id" {
+    default = "c0d5db82-75ed-4c6a-8a4f-27a3763fa932"
+}
+
 variable "agent_count" {
     default = 3
 }
