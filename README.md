@@ -51,3 +51,4 @@ mysql-deployment.yaml: This is a yaml file to deploy a Headless service, create 
 
 wordpress-deployment.yaml: As part of this yaml file we deploy a Loadbalancer Service, create a Persistent Volume and deploy wordpress container using Deployment config
   
+#To delete cluster the workflow can be updated and 'terraform destroy' can be run on the cluster. 
