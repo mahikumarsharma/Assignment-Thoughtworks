@@ -64,12 +64,6 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout and substitute
       uses: actions/checkout@v2
-      
-    # Setting environment variables
-    - name: Set env variables
-      run: |
-        export TF_VAR_CLIENTID=${{ secrets.SERVICE_PRINCIPAL_APPID }}
-        export TF_VAR_CLIENTSECRET=${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
@@ -89,7 +83,7 @@ jobs:
       run: echo "$(terraform output -json kube_config| jq -r .)" > $HOME/.kube/config 
       
     - name: List nodes
-      run: kubectl get nodes --kubeconfig azurek8s
+      run: kubectl get nodes
 
     - name: Deploy application
       run: kubectl apply -k ./

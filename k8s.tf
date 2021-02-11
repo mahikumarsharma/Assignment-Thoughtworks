@@ -49,8 +49,8 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     }
 
     service_principal {
-        client_id     = CLIENTID
-        client_secret = CLIENTSECRET
+        client_id     = "${{ secrets.SERVICE_PRINCIPAL_APPID }}"
+        client_secret = "${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}"
     }
 
     addon_profile {
