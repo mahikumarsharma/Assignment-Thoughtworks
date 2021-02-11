@@ -64,6 +64,7 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout and substitute
       uses: actions/checkout@v2
+    
     - name: Update the parameters
       run: |
         sed -i 's/CLIENT_SECRET/${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}/' k8s.tf
@@ -83,6 +84,11 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply out.plan
 
+  application:
+    name: 'application'
+    needs: Terraform
+    runs-on: self-hosted
+    steps:
     - name: Save the config file
       run: echo "$(terraform output -json kube_config| jq -r .)" > $HOME/.kube/config 
       

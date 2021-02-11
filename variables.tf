@@ -19,7 +19,7 @@ variable cluster_name {
 }
 
 variable resource_group_name {
-    default = "azure-k8stest"
+    default = "azure-k8s"
 }
 
 variable location {
