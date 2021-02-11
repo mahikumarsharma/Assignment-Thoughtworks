@@ -62,13 +62,14 @@ jobs:
 
     steps:
     # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
+    - name: Checkout and substitute
       uses: actions/checkout@v2
-
+      
     # Setting environment variables
-      env:
-        TF_VAR_client_id: ${{ secrets.SERVICE_PRINCIPAL_APPID}}
-        TF_VAR_client_secret: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD}}
+    - name: Set env variables
+      run: |
+        export TF_VAR_CLIENTID=${{ secrets.SERVICE_PRINCIPAL_APPID }}
+        export TF_VAR_CLIENTSECRET=${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
@@ -82,5 +83,13 @@ jobs:
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform destroy --auto-approve
-      #run: terraform apply out.plan
+      run: terraform apply out.plan
+
+    - name: Save the config file
+      run: echo "$(terraform output -json kube_config| jq -r .)" > $HOME/.kube/config 
+      
+    - name: List nodes
+      run: kubectl get nodes --kubeconfig azurek8s
+
+    - name: Deploy application
+      run: kubectl apply -k ./
