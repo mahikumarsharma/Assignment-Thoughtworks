@@ -78,3 +78,6 @@ jobs:
 
     - name: Deploy application
       run: kubectl apply -k ./
+    
+    - name: Display service details
+      run: kubectl get svc  
