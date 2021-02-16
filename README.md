@@ -1,5 +1,5 @@
 # Assignment-Thoughtworks
-This is project is use to create a kubernetes cluster on Azure and deploy Wordpress application on top of it. There are few things needs to be configured before one can use this project.
+This is project is use to create a kubernetes cluster on Azure and deploy Mediawiki application on top of it. There are few things needs to be configured before one can use this project.
 
 RUNNER:
 It's the agent which will take care of running the job. One can use runner provided by Github Actions or can use self managed runner. To configure a runner follow these steps:
@@ -23,7 +23,8 @@ Steps to configure Project in Github Actions:
 1. Follow instructions mentioned under 'settings -> Action' section to add self hosted runner to Github Actions.
 3. Add below listed secrets in 'settings -> Secret' section:
    1. AZURE_STORAGE_ACCOUNT_NAME
-   2. MYSQL_PASSWORD(sql database password of Wordpress application)
+   2. MYSQL_ROOT_PASSWORD
+   3. MYSQL_USER_PASSWORD
    3. SERVICE_PRINCIPAL_APPID
    4. SERVICE_PRINCIPAL_PASSWORD
    5. STORAGE_ACCOUNT_ACCESS_KEY
@@ -47,8 +48,10 @@ variables.tf:
 output.tf: As part of this file we can add values which we want as an output once the cluster is created.
 
 Application: As part of this stage we deploy application on top of cluster. Files to modify as part of this part:
-mysql-deployment.yaml: This is a yaml file to deploy a Headless service, create a Persistent Volume and deploy a mysql container
+mysql-deployment.yaml: This is a yaml file to deploy a Headless service and deploy a mysql container
 
-wordpress-deployment.yaml: As part of this yaml file we deploy a Loadbalancer Service, create a Persistent Volume and deploy wordpress container using Deployment config
+mediawiki-deployment.yaml: As part of this yaml file we deploy a Loadbalancer Service and deploy mediawiki container using Deployment config
+
+Dockerfile: This file is used to build the image for mediawiki application.
   
 #To delete cluster the workflow can be updated and 'terraform destroy' can be run on the cluster. 
