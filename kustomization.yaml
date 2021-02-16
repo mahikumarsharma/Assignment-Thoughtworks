@@ -1,7 +1,16 @@
 secretGenerator:
+- name: mysql-root-password
+  literals:
+  - rootpassword="ROOTPASSWORD"
+- name: mysql-database-name
+  literals:
+  - dbname="my-wiki"
+- name: mysql-username
+  literals:
+  - username="mohit"
 - name: mysql-pass
   literals:
-  - password="NEWPASSWORD"
+  - password="USERPASSWORD"
 resources:
-  - mysql-deployment.yaml
-  - wordpress-deployment.yaml
+  - templates/mysql-deployment.yaml
+  - templates/mediawiki-deployment.yaml
